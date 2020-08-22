@@ -63,5 +63,5 @@ class CdkPipelineStack(core.Stack):
                 scope=self,
                 id='ssmstage',
             ),
-            manual_approvals=True,
+            manual_approvals=False,
         )
