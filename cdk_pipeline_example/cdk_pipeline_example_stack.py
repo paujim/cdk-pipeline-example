@@ -8,15 +8,23 @@ from aws_cdk import (
 )
 
 
-class SSMStack(core.Stage):
-    def __init__(self, scope: core.Construct, id: str, **kwargs):
-        super().__init__(scope, id, **kwargs)
+class SSMStack(core.Stack):
 
+    def __init__(self, scope: core.Construct, id: str, **kwargs) -> None:
+        super().__init__(scope, id, **kwargs)
         param = ssm.StringParameter(
             scope=self,
             id="StringParameter",
             string_value="Initial parameter value",
         )
+
+
+class SSMStage(core.Stage):
+    def __init__(self, scope: core.Construct, id: str, **kwargs):
+        super().__init__(scope, id, **kwargs)
+        db_stack = SSMStack(
+            scope=self,
+            id="SSM")
 
 
 class CdkPipelineStack(core.Stack):
@@ -49,4 +57,11 @@ class CdkPipelineStack(core.Stack):
                 build_command="pip install -r requirements.txt",
                 synth_command="cdk synth",
             ),
+        )
+        pipeline.add_application_stage(
+            app_stage=SSMStage(
+                scope=self,
+                id='ssmstage',
+            ),
+            manual_approvals=True,
         )

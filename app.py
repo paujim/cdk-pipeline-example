@@ -6,6 +6,8 @@ from cdk_pipeline_example.cdk_pipeline_example_stack import CdkPipelineStack
 
 
 app = core.App()
-CdkPipelineStack(app, "cdk-pipeline-example")
+CdkPipelineStack(
+    scope=app,
+    id="cdk-pipeline-example", )
 
 app.synth()
