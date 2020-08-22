@@ -1,4 +1,5 @@
 aws-cdk.core
+aws-cdk.pipelines
 aws-cdk.aws-iam
 aws-cdk.aws-lambda
 aws-cdk.aws-cloudformation
@@ -6,4 +7,4 @@ aws-cdk.aws-codedeploy
 aws-cdk.aws-codebuild 
 aws-cdk.aws-codepipeline
 aws-cdk.aws-codepipeline_actions
-aws-cdk.pipelines 
+aws-cdk.aws-ssm

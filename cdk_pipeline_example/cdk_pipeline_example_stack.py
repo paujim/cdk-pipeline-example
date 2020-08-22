@@ -1,10 +1,22 @@
 import constants
 from aws_cdk import (
     core,
+    pipelines,
     aws_codepipeline as codepipeline,
     aws_codepipeline_actions as codepipeline_actions,
+    aws_ssm as ssm,
 )
-from aws_cdk.pipelines import CdkPipeline, SimpleSynthAction
+
+
+class SSMStack(core.Stage):
+    def __init__(self, scope: core.Construct, id: str, **kwargs):
+        super().__init__(scope, id, **kwargs)
+
+        param = ssm.StringParameter(
+            scope=self,
+            id="StringParameter",
+            string_value="Initial parameter value",
+        )
 
 
 class CdkPipelineStack(core.Stack):
@@ -15,7 +27,7 @@ class CdkPipelineStack(core.Stack):
         source_artifact = codepipeline.Artifact()
         cloud_assembly_artifact = codepipeline.Artifact()
 
-        pipeline = CdkPipeline(
+        pipeline = pipelines.CdkPipeline(
             scope=self,
             id="cdk-pipeline",
             pipeline_name="SSMComandsPipeline",
@@ -30,13 +42,11 @@ class CdkPipelineStack(core.Stack):
                 owner=constants.GITHUB,
                 repo=constants.GITHUB_REPO,
             ),
-            synth_action=SimpleSynthAction.standard_npm_synth(
+            synth_action=pipelines.SimpleSynthAction(
                 source_artifact=source_artifact,
                 cloud_assembly_artifact=cloud_assembly_artifact,
-                # Use this if you need a build step (if you're not using ts-node
-                # or if you have TypeScript Lambdas that need to be compiled).
                 install_command="npm install -g aws-cdk",
-                build_command="npm run build",
+                build_command="pip install -r requirements.txt",
                 synth_command="cdk synth",
-            )
+            ),
         )
