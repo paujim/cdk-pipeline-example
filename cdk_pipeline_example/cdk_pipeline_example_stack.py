@@ -12,6 +12,7 @@ class SSMStack(core.Stack):
 
     def __init__(self, scope: core.Construct, id: str, **kwargs) -> None:
         super().__init__(scope, id, **kwargs)
+        #ToDo: Create a SSM command
         param = ssm.StringParameter(
             scope=self,
             id="StringParameter",
@@ -22,7 +23,7 @@ class SSMStack(core.Stack):
 class SSMStage(core.Stage):
     def __init__(self, scope: core.Construct, id: str, **kwargs):
         super().__init__(scope, id, **kwargs)
-        db_stack = SSMStack(
+        ssm_stack = SSMStack(
             scope=self,
             id="SSM")
 
