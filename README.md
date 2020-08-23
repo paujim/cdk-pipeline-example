@@ -1,5 +1,5 @@
 
-# CDK Pipelie example project!
+# CDK Pipeline example project!
 
 
 To manually create a virtualenv on MacOS and Linux:
